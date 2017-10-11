@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <script>
+        // UNCOMMENT AND USE YOUR VARIABLES FOR DISQUS AND GOOGLE ANALYTICS
+        // var d_id  = '',
+        //     g_id  = 'UA-XXXXXXXX-X', // Format: UA-########-#, Example: UA-11220899-1
+        //     g_url = 'XXXXXXX.XXX' // Format: #####.####, Example: webdesignporto.com
+    </script>
+
+    <title>安全地使用存储服务</title>
+    <meta name="description" content="" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="//wushaobo.github.io/themes/the-shell/assets/highlighter/prettify.css?v=1507697786899" />
+    <link rel="stylesheet" type="text/css" href="//wushaobo.github.io/themes/the-shell/assets/css/screen.css?v=1507697786899" />
+
+    <link rel="canonical" href="https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html" />
+    <meta name="referrer" content="origin" />
+    
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="安全地使用存储服务" />
+    <meta property="og:description" content="做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。 使用私有空间存储用户数据 存储服务通常有公开和私有两种空间。 公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。 私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。 用户资源可由固定URL下载这显然不是安全的。 URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。 URL被盗链太容易，你一点办法也没有。 私有空间要求你每次都生成URL来存取资源，只要存储服务给你的私钥不泄露，没人能猜到URL是什么。 存储服务都会设计这样的安全机制来保护私有空间" />
+    <meta property="og:url" content="https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html" />
+    <meta property="article:published_time" content="2017-10-11T00:00:00.000Z" />
+    <meta property="article:tag" content="Blog" />
+    <meta property="article:tag" content="Cloud" />
+    <meta property="article:tag" content="Storage" />
+    <meta property="article:tag" content="Api" />
+    <meta property="article:tag" content="App" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="安全地使用存储服务" />
+    <meta name="twitter:description" content="做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。 使用私有空间存储用户数据 存储服务通常有公开和私有两种空间。 公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。 私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。 用户资源可由固定URL下载这显然不是安全的。 URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。 URL被盗链太容易，你一点办法也没有。 私有空间要求你每次都生成URL来存取资源，只要存储服务给你的私钥不泄露，没人能猜到URL是什么。 存储服务都会设计这样的安全机制来保护私有空间" />
+    <meta name="twitter:url" content="https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "author": {
+        "@type": "Person",
+        "name": "Shaobo Wu",
+        "image": "https://avatars0.githubusercontent.com/u/491264?v=4",
+        "url": "https://wushaobo.github.io/author/wushaobo/"
+    },
+    "headline": "安全地使用存储服务",
+    "url": "https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html",
+    "datePublished": "2017-10-11T00:00:00.000Z",
+    "keywords": "Blog, Cloud, Storage, Api, App",
+    "description": "做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。 使用私有空间存储用户数据 存储服务通常有公开和私有两种空间。 公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。 私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。 用户资源可由固定URL下载这显然不是安全的。 URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。 URL被盗链太容易，你一点办法也没有。 私有空间要求你每次都生成URL来存取资源，只要存储服务给你的私钥不泄露，没人能猜到URL是什么。 存储服务都会设计这样的安全机制来保护私有空间"
+}
+    </script>
+
+    <meta name="generator" content="HubPress" />
+    <link rel="alternate" type="application/rss+xml" title="" href="https://wushaobo.github.io/rss/" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/atom-one-dark.min.css">
+    
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+
+</head>
+<body class="post-template tag-Blog tag-Cloud tag-Storage tag-Api tag-App">
+
+    
+
+<main class="content" role="main">
+
+    <article class="post tag-Blog tag-Cloud tag-Storage tag-Api tag-App">
+
+        <header class="post-header">
+            <a id="blog-logo" href="https://wushaobo.github.io">
+                    
+            </a>
+        </header>
+
+
+        <span class="post-meta"><time datetime="2017-10-11">11 Oct 2017</time> on <a href="https://wushaobo.github.io/tag/Blog/">Blog</a> | <a href="https://wushaobo.github.io/tag/Cloud/">Cloud</a> | <a href="https://wushaobo.github.io/tag/Storage/">Storage</a> | <a href="https://wushaobo.github.io/tag/Api/">Api</a> | <a href="https://wushaobo.github.io/tag/App/">App</a></span>
+
+        <h1 class="post-title">安全地使用存储服务</h1>
+
+        <section class="post-content">
+            <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="__">使用私有空间存储用户数据</h3>
+<div class="paragraph">
+<p>存储服务通常有公开和私有两种空间。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。</p>
+</li>
+<li>
+<p>私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>用户资源可由固定URL下载这显然不是安全的。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。</p>
+</li>
+<li>
+<p>URL被盗链太容易，你一点办法也没有。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>私有空间要求你每次都生成URL来存取资源，只要存储服务给你的私钥不泄露，没人能猜到URL是什么。
+存储服务都会设计这样的安全机制来保护私有空间资源，并著文教你使用它，怕的只是你不懂。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="___2">客户端的上传下载先向服务端申请</h3>
+<div class="paragraph">
+<p>上传下载资源的流量不走服务端是普遍共识。
+但从客户端的上传和下载不应抛开服务端，而是应每次跟服务端申请，由服务端授予URL。好处</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>服务端知道每次上传和下载资源的事件，也容易建立关系数据</p>
+</li>
+<li>
+<p>URL是最新的，不会因为客户端版本多样而出现问题</p>
+</li>
+<li>
+<p>URL有时效、被签名，资源受保护不会被扒、被盗链</p>
+</li>
+<li>
+<p>客户端不知道URL如何生成，不存放私钥</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>以手机 App + Api Server 的产品使用 Qiniu 云存储为例。
+App 无论上传和下载都应当从 Api Server 请求URL，再直接访问 Qiniu 存取资源。如图</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="http://github.com/wushaobo/wushaobo.github.io/images/use_storage_service_safely/chart.png" alt="chart.png">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="___3">不要把私钥存在客户端</h3>
+<div class="paragraph">
+<p>存储服务提供给你的私钥一定要保护，因为算法虽复杂却是公开的，私钥是保证签名有效的唯一手段。</p>
+</div>
+<div class="paragraph">
+<p>你会把银行卡的背面写上密码还随手放吗？如果不会，那么为什么你架构产品时会把凭证放在客户端让大众拿到呢？</p>
+</div>
+<div class="paragraph">
+<p><strong>客户端没有秘密</strong> ，程序都可以破解，只是难易问题。</p>
+</div>
+<div class="paragraph">
+<p>比如 Android App，拿到其的 apk 文件借助 apktool 这样的工具只需要跑一行命令就可以反编译。
+你存在其中的秘钥作为字符串可谓一览无余。</p>
+</div>
+<div class="paragraph">
+<p>存放和使用私钥是服务端的职责，签名后URL交由客户端使用。
+正确的姿势前文已经提到了，仍以手机 App + Api Server 的产品使用 Qiniu 云存储为例，
+App 无论上传和下载都应当从 Api Server 请求URL，再直接访问 Qiniu 存取资源。</p>
+</div>
+<div class="paragraph">
+<p>用图解释得细致点</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="http://github.com/wushaobo/wushaobo.github.io/images/use_storage_service_safely/upload_sequence_diagram.png" alt="upload sequence diagram.png">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="http://github.com/wushaobo/wushaobo.github.io/images/use_storage_service_safely/download_sequence_diagram.png" alt="download sequence diagram.png">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="___4">不要自己为上传的资源命名</h3>
+<div class="paragraph">
+<p>听起来是反直觉的？其实是你不懂存储服务的设计。存储服务会对上传资源的按字节生成一个Key，作为其空间内的唯一标识。</p>
+</div>
+<div class="paragraph">
+<p>如果你主动为其命名，那么云存储会按你说的办，用你的命名做这个Key。可你想过吗</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>你生成的Key科学吗？它会作为URL的一部分，至少要url safe的吧</p>
+</li>
+<li>
+<p>你生成的Key唯一吗？即便是随机字符串也有碰撞的一天，那时你的资源会被覆盖</p>
+</li>
+<li>
+<p>同样内容的上传资源只是命名不同，存为两份？那是两份存储空间的费用&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>所以正确的姿势是，客户端上传完毕之后，存储服务会发回调请求到服务端，如果上传成功会带过去资源的Key，你应该在这时存下它。</p>
+</div>
+</div>
+        </section>
+
+
+        <footer class="post-footer">
+
+                <section class="author">
+                    <h4>Shaobo Wu</h4>
+                    <p></p>
+                </section>
+
+            <section class="share">
+                <h4>Share this</h4>
+                <a class="icon-twitter" href="http://twitter.com/share?text=安全地使用存储服务&url=https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+
+        </footer>
+
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <!-- <a class="subscribe icon-feed" href="https://wushaobo.github.io/rss/"><span class="tooltip">Subscribe!</span></a> -->
+        <div class="inner">
+             <section class="copyright">All content copyright <a href="/"></a> &copy; 2017 &bull; All rights reserved.</section>
+             <section class="poweredby">Proudly published with <a href="http://hubpress.io">HubPress</span></a> in <a href="https://github.com/mityalebedev/The-Shell">The Shell</a> theme.</section>
+        </div>
+    </footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();
+      </script>
+
+    <script type='text/javascript' src="//wushaobo.github.io/themes/the-shell/assets/highlighter/prettify.js?v=1507697786899"></script>
+    <script type='text/javascript' src="//wushaobo.github.io/themes/the-shell/assets/js/shell.js?v=1507697786899"></script>
+</body>
+</html>
