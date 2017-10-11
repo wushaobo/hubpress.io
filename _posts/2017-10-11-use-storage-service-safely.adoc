@@ -54,9 +54,9 @@ App 无论上传和下载都应当从 Api Server 请求URL，再直接访问 Qin
 
 用图解释得细致点
 
-image::use_storage_service_safely/upload_sequence_diagram.png[width=1104,height=964]
+image::use_storage_service_safely/upload_sequence_diagram.png[width=680,height=594]
 
-image::use_storage_service_safely/download_sequence_diagram.png[width=820,height=716]
+image::use_storage_service_safely/download_sequence_diagram.png[width=505,height=441]
 
 
 === 不要自己为上传的资源命名
