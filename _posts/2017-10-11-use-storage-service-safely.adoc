@@ -34,7 +34,11 @@
 以手机 App + Api Server 的产品使用 Qiniu 云存储为例。
 App 无论上传和下载都应当从 Api Server 请求URL，再直接访问 Qiniu 存取资源。如图
 
+<<<<<<< HEAD
 image::use_storage_service_safely/chart.png[]
+=======
+image::use_storage_service_safely/chart.png[width=630,height=494]
+>>>>>>> update images
 
 
 === 不要把私钥存在客户端
@@ -54,9 +58,15 @@ App 无论上传和下载都应当从 Api Server 请求URL，再直接访问 Qin
 
 用图解释得细致点
 
+<<<<<<< HEAD
 image::use_storage_service_safely/upload_sequence_diagram.png[]
 
 image::use_storage_service_safely/download_sequence_diagram.png[]
+=======
+image::use_storage_service_safely/upload_sequence_diagram.png[width=1104,height=964]
+
+image::use_storage_service_safely/download_sequence_diagram.png[width=820,height=716]
+>>>>>>> update images
 
 
 === 不要自己为上传的资源命名
