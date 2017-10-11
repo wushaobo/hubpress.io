@@ -34,7 +34,7 @@
 以手机 App + Api Server 的产品使用 Qiniu 云存储为例。
 App 无论上传和下载都应当从 Api Server 请求URL，再直接访问 Qiniu 存取资源。如图
 
-image::use_storage_service_safely/chart.png[width=388,height=304]
+image::use_storage_service_safely/chart.png[max-width=388,max-height=304]
 
 
 === 不要把私钥存在客户端
