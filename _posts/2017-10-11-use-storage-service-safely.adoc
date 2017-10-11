@@ -1,5 +1,5 @@
 = 安全地使用存储服务
-:hp-image: use_storage_service_safely/chart.png
+:hp-image: images/use_storage_service_safely/chart.png
 :published_at: 2017-10-11
 :hp-tags: Blog, Cloud, Storage, Api, App
 :hp-alt-title: use_storage_service_safely
