@@ -80,4 +80,3 @@ image::use_storage_service_safely/download_sequence_diagram.png[]
 
 所以正确的姿势是，客户端上传完毕之后，存储服务会发回调请求到服务端，如果上传成功会带过去资源的Key，你应该在这时存下它。
 
-_[本文首发于 http://www.jianshu.com/p/694e4aff82c6]_
