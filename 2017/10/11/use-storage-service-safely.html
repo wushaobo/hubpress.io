@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <script>
-        // UNCOMMENT AND USE YOUR VARIABLES FOR DISQUS AND GOOGLE ANALYTICS
-        // var d_id  = '',
-        //     g_id  = 'UA-XXXXXXXX-X', // Format: UA-########-#, Example: UA-11220899-1
-        //     g_url = 'XXXXXXX.XXX' // Format: #####.####, Example: webdesignporto.com
-    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <title>安全地使用存储服务</title>
     <meta name="description" content="" />
 
     <meta name="HandheldFriendly" content="True" />
-    <meta name="MobileOptimized" content="320" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" type="text/css" href="//wushaobo.github.io/themes/the-shell/assets/highlighter/prettify.css?v=1507697786899" />
-    <link rel="stylesheet" type="text/css" href="//wushaobo.github.io/themes/the-shell/assets/css/screen.css?v=1507697786899" />
+    <link rel="shortcut icon" href="https://wushaobo.github.io/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:400,700,400italic,700italic|Open+Sans:400italic,700italic,700,400">
+    <link rel="stylesheet" type="text/css" href="//wushaobo.github.io/themes/roon/assets/css/screen.css?v=1507698487868" />
 
     <link rel="canonical" href="https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html" />
     <meta name="referrer" content="origin" />
     
+    <meta property="og:site_name" content="" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="安全地使用存储服务" />
     <meta property="og:description" content="做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。 使用私有空间存储用户数据 存储服务通常有公开和私有两种空间。 公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。 私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。 用户资源可由固定URL下载这显然不是安全的。 URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。 URL被盗链太容易，你一点办法也没有。 私有空间要求你每次都生成URL来存取资源，只要存储服务给你的私钥不泄露，没人能猜到URL是什么。 存储服务都会设计这样的安全机制来保护私有空间" />
@@ -43,6 +39,7 @@
 {
     "@context": "http://schema.org",
     "@type": "Article",
+    "publisher": "",
     "author": {
         "@type": "Person",
         "name": "Shaobo Wu",
@@ -62,28 +59,20 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/atom-one-dark.min.css">
     
         <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
-
 </head>
-<body class="post-template tag-Blog tag-Cloud tag-Storage tag-Api tag-App">
+<body class="post-template tag-Blog tag-Cloud tag-Storage tag-Api tag-App  noimage">
 
     
 
-<main class="content" role="main">
 
-    <article class="post tag-Blog tag-Cloud tag-Storage tag-Api tag-App">
-
-        <header class="post-header">
-            <a id="blog-logo" href="https://wushaobo.github.io">
-                    
-            </a>
+    <article role="main" class="">
+        <header>
+            <a href="https://wushaobo.github.io" id="home_link">«</a>
+            <div class="meta"><time datetime="2017-10-11"><a href="https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html">October 11, 2017</a></time> <span class="count" id="js-reading-time"></span></div>
+            <h1>安全地使用存储服务</h1>
         </header>
 
-
-        <span class="post-meta"><time datetime="2017-10-11">11 Oct 2017</time> on <a href="https://wushaobo.github.io/tag/Blog/">Blog</a> | <a href="https://wushaobo.github.io/tag/Cloud/">Cloud</a> | <a href="https://wushaobo.github.io/tag/Storage/">Storage</a> | <a href="https://wushaobo.github.io/tag/Api/">Api</a> | <a href="https://wushaobo.github.io/tag/App/">App</a></span>
-
-        <h1 class="post-title">安全地使用存储服务</h1>
-
-        <section class="post-content">
+        <div class="text" id="js-post-content">
             <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
@@ -215,47 +204,133 @@ App 无论上传和下载都应当从 Api Server 请求URL，再直接访问 Qin
 <p>所以正确的姿势是，客户端上传完毕之后，存储服务会发回调请求到服务端，如果上传成功会带过去资源的Key，你应该在这时存下它。</p>
 </div>
 </div>
-        </section>
+        </div>
+
+        <menu>
+            <a href="" id="btn_share" class="btn" title="Share">
+                <span aria-hidden="true" data-icon="S"></span>
+                <strong>Share</strong>
+            </a>
+            <a href="http://twitter.com/share?text=%E5%AE%89%E5%85%A8%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1&url=https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" id="btn_comment" class="btn" target="_blank">
+                <span aria-hidden="true" data-icon="C"></span> Comment on Twitter
+            </a>
+        </menu>
 
 
-        <footer class="post-footer">
+        <footer class="post-footer" role="contentinfo">
 
-                <section class="author">
-                    <h4>Shaobo Wu</h4>
-                    <p></p>
-                </section>
-
-            <section class="share">
-                <h4>Share this</h4>
-                <a class="icon-twitter" href="http://twitter.com/share?text=安全地使用存储服务&url=https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html"
-                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <span class="hidden">Twitter</span>
+            <div class="vcard">
+                <a href="https://wushaobo.github.io/rss" id="btn_feed" class="btn" title="Feed" target="_blank">
+                    <span aria-hidden="true" data-icon=")"></span>
+                    <strong>Feed</strong>
                 </a>
-                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html"
-                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <span class="hidden">Facebook</span>
+
+                <a href="https://wushaobo.github.io/author/wushaobo/" class="photo">
+                    <span style="background-image: url('https://avatars0.githubusercontent.com/u/491264?v&#x3D;4');">
+                        <img src="https://avatars0.githubusercontent.com/u/491264?v&#x3D;4" alt="Shaobo Wu">
+                    </span>
                 </a>
-                <a class="icon-google-plus" href="https://plus.google.com/share?url=https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html"
-                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <span class="hidden">Google+</span>
-                </a>
-            </section>
+
+                <div class="details">
+                    <h4><a href="https://wushaobo.github.io/author/wushaobo/" class="url n">Shaobo Wu</a></h4>
+                    Xi&#x27;an, China<br>
+                    
+                </div>
+            </div>
+
+            <div id="user_bio">
+                <div class="inner">
+                    
+                </div>
+            </div>
 
         </footer>
 
 
+
+
     </article>
 
-</main>
+    <div id="share_modal">
+        <div class="wrap">
+            <div class="inner">
+                <header>
+                    Share
+                    <a href="" class="close" title="Close">&times;</a>
+                </header>
 
+                <div class="roon-share-links">
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-dnt="true">Tweet</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
-    <footer class="site-footer">
-        <!-- <a class="subscribe icon-feed" href="https://wushaobo.github.io/rss/"><span class="tooltip">Subscribe!</span></a> -->
-        <div class="inner">
-             <section class="copyright">All content copyright <a href="/"></a> &copy; 2017 &bull; All rights reserved.</section>
-             <section class="poweredby">Proudly published with <a href="http://hubpress.io">HubPress</span></a> in <a href="https://github.com/mityalebedev/The-Shell">The Shell</a> theme.</section>
+                    <div id="fb-elems">
+                        <div id="fb-root"></div>
+                        <script>(function(d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s); js.id = id;
+                        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=463438580397968";
+                        fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));</script>
+                        <div class="fb-like" data-send="false" data-layout="button_count" data-width="110" data-show-faces="false" data-font="arial"></div>
+                    </div>
+
+                    <div id="pinit-btn">
+                        <a href="//pinterest.com/pin/create/button/?url=https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html&amp;description=%E5%AE%89%E5%85%A8%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1-%5Bobject%20Object%5D " data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png"></a>
+                        <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
+
+
+
+
+
+
+    <script>
+
+            function get_text(el) {
+                ret = "";
+                var length = el.childNodes.length;
+                for(var i = 0; i < length; i++) {
+                    var node = el.childNodes[i];
+                    if(node.nodeType != 8) {
+                        ret += node.nodeType != 1 ? node.nodeValue : get_text(node);
+                    }
+                }
+                return ret;
+            }
+            function reading_time () {
+                var post_content = document.getElementById('js-post-content');
+                if (post_content) {
+                    var words = get_text(post_content),
+                        count = words.split(/\s+/).length,
+                        read_time = Math.ceil((count / 150)),
+                        read_time_node = document.createTextNode(read_time + ' min read');
+                    document.getElementById('js-reading-time').appendChild(read_time_node);
+                }
+            }
+
+        function no_schema_links () {
+            var links = document.querySelectorAll('.js-remove-domain-schema');
+            if (links) {
+                for (i = 0; i < links.length; ++i) {
+                    var link = links[i],
+                        text = link.innerHTML,
+                        no_schema = text.replace(/.*?:\/\//g, "");
+                    link.innerHTML = no_schema;
+                }
+            }
+        }
+
+        window.onload = function () {
+            no_schema_links();
+
+            reading_time();
+        }
+    </script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js?v="></script> 
       <script type="text/javascript">
@@ -270,7 +345,32 @@ App 无论上传和下载都应当从 Api Server 请求URL，再直接访问 Qin
         hljs.initHighlightingOnLoad();
       </script>
 
-    <script type='text/javascript' src="//wushaobo.github.io/themes/the-shell/assets/highlighter/prettify.js?v=1507697786899"></script>
-    <script type='text/javascript' src="//wushaobo.github.io/themes/the-shell/assets/js/shell.js?v=1507697786899"></script>
+        <script>
+            $(function(){
+                var share_modal = $("#share_modal"),
+                    update_social_links = true;
+
+                $("#btn_share").click(function(){
+                    var that = $(this);
+                    share_modal.fadeIn(200);
+                    return false;
+                });
+
+                share_modal.click(function(e){
+                    if (e.target.className == "wrap" || e.target.id == "share_modal") {
+                        share_modal.fadeOut(200);
+                    }
+                    return false;
+                });
+
+                share_modal.find("div.inner > header > a.close").click(function(){
+                    share_modal.fadeOut(200);
+                    return false;
+                });
+            });
+        </script>
+
+
+
 </body>
 </html>
