@@ -4,8 +4,6 @@
 :hp-tags: Blog, Cloud, Storage, Api, App
 :hp-alt-title: use_storage_service_safely
 
-_[首发于 http://www.jianshu.com/p/694e4aff82c6]_
-
 做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。
 
 === 使用私有空间存储用户数据
@@ -72,3 +70,5 @@ image::use_storage_service_safely/download_sequence_diagram.png[]
 - 同样内容的上传资源只是命名不同，存为两份？那是两份存储空间的费用...
 
 所以正确的姿势是，客户端上传完毕之后，存储服务会发回调请求到服务端，如果上传成功会带过去资源的Key，你应该在这时存下它。
+
+_[本文首发于 http://www.jianshu.com/p/694e4aff82c6]_
