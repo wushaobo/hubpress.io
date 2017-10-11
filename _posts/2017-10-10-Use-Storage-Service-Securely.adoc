@@ -1,5 +1,0 @@
-= 安全地使用存储服务
-// :hp-image: /covers/cover.png
-// :published_at: 2017-10-10
-:hp-tags: Blog, Cloud, Storage, Api, App
-:hp-alt-title: Use Storage Service Securely
