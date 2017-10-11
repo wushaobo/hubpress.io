@@ -1,0 +1,4 @@
+= 安全地使用存储服务
+// :hp-image: /covers/cover.png
+// :published_at: 2017-10-11
+:hp-alt-title: use_storage_service_safely
