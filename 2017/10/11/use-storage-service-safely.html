@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="https://wushaobo.github.io/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:400,700,400italic,700italic|Open+Sans:400italic,700italic,700,400">
-    <link rel="stylesheet" type="text/css" href="//wushaobo.github.io/themes/roon/assets/css/screen.css?v=1507704976139" />
+    <link rel="stylesheet" type="text/css" href="//wushaobo.github.io/themes/roon/assets/css/screen.css?v=1507705042430" />
 
     <link rel="canonical" href="https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html" />
     <meta name="referrer" content="origin" />
@@ -21,7 +21,7 @@
     <meta property="og:site_name" content="Blog as code" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="安全地使用存储服务" />
-    <meta property="og:description" content="[首发于 http://www.jianshu.com/p/694e4aff82c6] 做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。 使用私有空间存储用户数据 存储服务通常有公开和私有两种空间。 公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。 私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。 用户资源可由固定URL下载这显然不是安全的。 URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。 URL被盗链太容易，你一点办法也没有。 私有空间要求你每次都生成URL来存取资源，只要存储服务" />
+    <meta property="og:description" content="做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。 使用私有空间存储用户数据 存储服务通常有公开和私有两种空间。 公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。 私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。 用户资源可由固定URL下载这显然不是安全的。 URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。 URL被盗链太容易，你一点办法也没有。 私有空间要求你每次都生成URL来存取资源，只要存储服务给你的私钥不泄露，没人能猜到URL是什么。 存储服务都会设计这样的安全机制来保护私有空间" />
     <meta property="og:url" content="https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html" />
     <meta property="article:published_time" content="2017-10-11T00:00:00.000Z" />
     <meta property="article:tag" content="Blog" />
@@ -32,7 +32,7 @@
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="安全地使用存储服务" />
-    <meta name="twitter:description" content="[首发于 http://www.jianshu.com/p/694e4aff82c6] 做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。 使用私有空间存储用户数据 存储服务通常有公开和私有两种空间。 公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。 私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。 用户资源可由固定URL下载这显然不是安全的。 URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。 URL被盗链太容易，你一点办法也没有。 私有空间要求你每次都生成URL来存取资源，只要存储服务" />
+    <meta name="twitter:description" content="做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。 使用私有空间存储用户数据 存储服务通常有公开和私有两种空间。 公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。 私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。 用户资源可由固定URL下载这显然不是安全的。 URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。 URL被盗链太容易，你一点办法也没有。 私有空间要求你每次都生成URL来存取资源，只要存储服务给你的私钥不泄露，没人能猜到URL是什么。 存储服务都会设计这样的安全机制来保护私有空间" />
     <meta name="twitter:url" content="https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html" />
     
     <script type="application/ld+json">
@@ -50,7 +50,7 @@
     "url": "https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html",
     "datePublished": "2017-10-11T00:00:00.000Z",
     "keywords": "Blog, Cloud, Storage, Api, App",
-    "description": "[首发于 http://www.jianshu.com/p/694e4aff82c6] 做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。 使用私有空间存储用户数据 存储服务通常有公开和私有两种空间。 公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。 私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。 用户资源可由固定URL下载这显然不是安全的。 URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。 URL被盗链太容易，你一点办法也没有。 私有空间要求你每次都生成URL来存取资源，只要存储服务"
+    "description": "做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。 使用私有空间存储用户数据 存储服务通常有公开和私有两种空间。 公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。 私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。 用户资源可由固定URL下载这显然不是安全的。 URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。 URL被盗链太容易，你一点办法也没有。 私有空间要求你每次都生成URL来存取资源，只要存储服务给你的私钥不泄露，没人能猜到URL是什么。 存储服务都会设计这样的安全机制来保护私有空间"
 }
     </script>
 
@@ -75,9 +75,6 @@
         <div class="text" id="js-post-content">
             <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p><em>[首发于 <a href="http://www.jianshu.com/p/694e4aff82c6" class="bare">http://www.jianshu.com/p/694e4aff82c6</a>]</em></p>
-</div>
 <div class="paragraph">
 <p>做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。</p>
 </div>
@@ -205,6 +202,9 @@ App 无论上传和下载都应当从 Api Server 请求URL，再直接访问 Qin
 </div>
 <div class="paragraph">
 <p>所以正确的姿势是，客户端上传完毕之后，存储服务会发回调请求到服务端，如果上传成功会带过去资源的Key，你应该在这时存下它。</p>
+</div>
+<div class="paragraph">
+<p><em>[本文首发于 <a href="http://www.jianshu.com/p/694e4aff82c6" class="bare">http://www.jianshu.com/p/694e4aff82c6</a>]</em></p>
 </div>
 </div>
         </div>
