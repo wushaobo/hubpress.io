@@ -13,12 +13,12 @@
     <link rel="shortcut icon" href="https://wushaobo.github.io/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:400,700,400italic,700italic|Open+Sans:400italic,700italic,700,400">
-    <link rel="stylesheet" type="text/css" href="//wushaobo.github.io/themes/roon/assets/css/screen.css?v=1507704237480" />
+    <link rel="stylesheet" type="text/css" href="//wushaobo.github.io/themes/roon/assets/css/screen.css?v=1507704320959" />
 
     <link rel="canonical" href="https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html" />
     <meta name="referrer" content="origin" />
     
-    <meta property="og:site_name" content="" />
+    <meta property="og:site_name" content="Blog as code" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="安全地使用存储服务" />
     <meta property="og:description" content="做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。我分享一些经验。 使用私有空间存储用户数据 存储服务通常有公开和私有两种空间。 公开空间的资源通过固定URL下载，适合存放可公开下载的静态资源。 私有空间的资源每次下载都通过不同的URL，URL由存储服务提供的算法和私钥做过签名。 用户资源可由固定URL下载这显然不是安全的。 URL被猜到的可能性很高，别人用程序扒你的资源库是迟早的事。 URL被盗链太容易，你一点办法也没有。 私有空间要求你每次都生成URL来存取资源，只要存储服务给你的私钥不泄露，没人能猜到URL是什么。 存储服务都会设计这样的安全机制来保护私有空间" />
@@ -39,7 +39,7 @@
 {
     "@context": "http://schema.org",
     "@type": "Article",
-    "publisher": "",
+    "publisher": "Blog as code",
     "author": {
         "@type": "Person",
         "name": "Shaobo Wu",
@@ -55,7 +55,7 @@
     </script>
 
     <meta name="generator" content="HubPress" />
-    <link rel="alternate" type="application/rss+xml" title="" href="https://wushaobo.github.io/rss/" />
+    <link rel="alternate" type="application/rss+xml" title="Blog as code" href="https://wushaobo.github.io/rss/" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/atom-one-dark.min.css">
     
         <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -276,7 +276,7 @@ App 无论上传和下载都应当从 Api Server 请求URL，再直接访问 Qin
                     </div>
 
                     <div id="pinit-btn">
-                        <a href="//pinterest.com/pin/create/button/?url=https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html&amp;description=%E5%AE%89%E5%85%A8%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1-%5Bobject%20Object%5D " data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png"></a>
+                        <a href="//pinterest.com/pin/create/button/?url=https://wushaobo.github.io/2017/10/11/use-storage-service-safely.html&amp;description=%E5%AE%89%E5%85%A8%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1-Blog%20as%20code " data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png"></a>
                         <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
                     </div>
                 </div>
