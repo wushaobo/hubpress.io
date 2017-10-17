@@ -1,4 +1,357 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Blog as code]]></title><description><![CDATA[Blog as code]]></description><link>https://wushaobo.github.io</link><generator>RSS for Node</generator><lastBuildDate>Wed, 11 Oct 2017 07:46:59 GMT</lastBuildDate><atom:link href="https://wushaobo.github.io/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[安全地使用存储服务]]></title><description><![CDATA[<div id="preamble">
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Blog as code]]></title><description><![CDATA[Blog as code]]></description><link>https://wushaobo.github.io</link><generator>RSS for Node</generator><lastBuildDate>Tue, 17 Oct 2017 15:26:12 GMT</lastBuildDate><atom:link href="https://wushaobo.github.io/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[打包下载服务]]></title><description><![CDATA[<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>有组织就有协作，有协作就有共享，想把共享作为资源保留就要屯盘建库。你产品的用户接下来会问：“我能否把选好的资源打包下载呢？”，衣食父母的吩咐这得接着。如何设计一个靠谱的打包下载服务呢？</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://wushaobo.github.io/images/zipper/zip_logo.jpg" alt="zip logo.jpg"></span></p>
+</div>
+<div class="paragraph">
+<p>摘要如下：</p>
+</div>
+<div class="paragraph">
+<p><a href="#requirements">要求</a></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#download_immediately">即刻下载</a></p>
+</li>
+<li>
+<p><a href="#brower_compatible">浏览器支持</a></p>
+</li>
+<li>
+<p><a href="#indenpendent">独立可复用</a></p>
+</li>
+<li>
+<p><a href="#concurrent_vist">并发访问</a></p>
+</li>
+<li>
+<p><a href="#minor_resource">资源占用小</a></p>
+</li>
+<li>
+<p><a href="#secure">安全</a></p>
+</li>
+<li>
+<p><a href="#advanced">高可用、高并发</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#design">设计</a></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#give_up_compression">性能考虑：放弃压缩</a></p>
+</li>
+<li>
+<p><a href="#pipe_stream">资源考虑：按流处理</a></p>
+</li>
+<li>
+<p><a href="#golang_for_concurrency">并发考虑：Golang实现web服务</a></p>
+</li>
+<li>
+<p><a href="#token_auth">安全考虑：secure-token auth</a></p>
+</li>
+<li>
+<p><a href="#stateless">独立可复用考虑：独立无状态服务</a></p>
+</li>
+<li>
+<p><a href="#compromise_browsers">浏览器支持考虑：小心处理</a></p>
+</li>
+<li>
+<p><a href="#cluster">高可用、高并发考虑：集群方案</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#implementation">实现</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="requirements">要求</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>注定是产品经理和技术总监都必须满意的，架构师心里暗自打鼓。</em></p>
+</div>
+<div class="sect2">
+<h3 id="download_immediately">即刻下载</h3>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>产品经理说了：点击打包下载按钮之后还提示让用户等 “ZIP文件准备就绪，请点击链接” 的通知再开始下载，这是不能接受的，说好的<strong>无需等待</strong>呢？</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>技术总监说了：点击打包下载按钮之后就 Loading 十几秒甚至几十秒直到下载开始，这是不能接受的。<strong>性能要好</strong>，否则大文件的话到底等到什么时候去？</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="brower_compatible">浏览器支持</h3>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>产品经理说了：产品的用户群挺广，用什么浏览器的用户都有，<strong>都能支持</strong>的吧？特别是从IE下载，文件名可不能是乱码的。</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="indenpendent">独立可复用</h3>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>技术总监说了：做一个服务，就要能独立部署，要能被几个产品复用。每个产品都来一套的话，可接受不了。</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>产品经理说了：每个产品要下载的资源可能来自不同地方，要能<strong>支持任意源地址</strong>。</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="concurrent_vist">并发访问</h3>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>产品经理说了：我们估计了初期同时使用打包下载的用户数，支持<strong>千人并发访问</strong>就可以了，图片文档下载嘛文件都不大，我们会限制让用户一次不能下载很多文件的。</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="minor_resource">资源占用小</h3>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>技术总监说了：经费有限，初期用户用得也不频繁，这个服务只能给你们划一台<strong>低配置的VM</strong>，2核CPU、2G内存、20GB硬盘够了吧，日志不能丢哦，好好干&#8230;&#8203;&#8230;&#8203;</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="secure">安全</h3>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>产品经理说了：网上很多资源都存在被盗链或窃取的情况，用户A打包下载zip文件之后，这个zip文件不会被其他人再下载或盗链吧？要保证安全哦。</p>
+</div>
+</blockquote>
+</div>
+</div>
+<div class="sect2">
+<h3 id="advanced">高可用、高并发</h3>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>技术总监说了：用户会积少成多，架构设计要走在前面。高可用性如何保证？更高的并发访问如何应对？</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p><em>不断点头称是的架构师此刻脑子飞快的运转着，一面在心里再次确认这些要求不是空想，一面如玩魔方一般拼凑思路进行设计。</em></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="design">设计</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="__">传统的文件打压缩包方案</h3>
+<div class="paragraph">
+<p>步骤如下，缺点在括号内。这些资源消耗在并发量增大时会急剧上升，VM资源成为瓶颈。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>从各源地址下载源文件到服务器（有等待时间，源文件临时占硬盘）</p>
+</li>
+<li>
+<p>打包压缩（有等待时间，压缩很耗CPU）</p>
+</li>
+<li>
+<p>提供压缩包文件可对外下载（压缩包占硬盘）</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="give_up_compression">性能考虑：放弃压缩</h3>
+<div class="paragraph">
+<p>在前文列出的《要求》里，并没有着重提到打包的压缩比，其原因</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>用户最需要的是打包，即免去一个一个下载文件的繁琐。</p>
+</li>
+<li>
+<p>用户关心的是能否立刻开始下载，而不苛求下载的文件大小与时间。</p>
+</li>
+<li>
+<p>用户打包的文件中，除了文档之外，如照片、视频、PDF文件可压缩尺寸的余地太小，压缩反倒徒劳。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>放弃压缩之后，拿到源文件的第一块内容之后就立刻可以生成打包文件了，省下CPU资源，省下等待时间。假设要求输出是ZIP包，无压缩的包仍是ZIP格式。</p>
+</div>
+<div class="paragraph">
+<p>对纠结用户下载流量大小的人，告诉你打包下载的内容是经过 gzip 再由浏览器解开的，你可以安心了。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="pipe_stream">资源考虑：按流处理</h3>
+<div class="paragraph">
+<p>既然放弃压缩，省下的工作都是I/O，即搬运源文件内容到服务器，再以一个文件的形式搬运到用户手里，为什么中间要存一次文件呢？我们大可以把前后两个管道接上，拿到的每一块源文件内容都立即倒手给用户。</p>
+</div>
+<div class="paragraph">
+<p>我们只要明白并处理好</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>无压缩的打包只是把源文件内容一个一个接起来，形成一个文件而已。</p>
+</li>
+<li>
+<p>文件下载起始需要一个预估大小，只能多，不能少。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>按流处理之后，无论源文件或打包产出文件都无需存在硬盘上了，剩下硬盘资源，剩下I/O时间。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="golang_for_concurrency">并发考虑：Golang实现web服务</h3>
+<div class="paragraph">
+<p>打包下载服务仍是请求响应模型的web服务。如何提高并发下载数？在资源紧张的情况下</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>多进程较为消耗资源，考虑使用多线程或协程</p>
+</li>
+<li>
+<p>I/O 为主，考虑使用贴近底层的语言</p>
+</li>
+<li>
+<p>web 服务选简单些的框架，不需要 view、不需要 session、不需要关系数据模型</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>结果 Golang 语言胜出，采用 Golang 内置的 http 库由 goroutine 支持并发。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="token_auth">安全考虑：secure-token auth</h3>
+<div class="paragraph">
+<p>打包下载服务授予 key pair 给服务使用者，并约定共同的hash算法，由服务使用者发出请求前做签名生成 token，之后由打包下载服务验证签名，并进一步验证是否过期以反盗链。</p>
+</div>
+<div class="paragraph">
+<p>在打包下载服务这里实际只做了验证（authentication），而没有做授权（authorization）。没错，任何签名正确且未过期的请求都可以被放行。你应该注意到了，签名请求的是服务使用者，那是你的某个使用此服务的产品，不是最终用户，对最终用户做授权是各产品自己的事，这也是为独立性的考虑。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="stateless">独立可复用考虑：独立无状态服务</h3>
+<div class="paragraph">
+<p>服务中必须把独立做到极致，才易复用</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>不耦合任何产品里的业务和代码</p>
+</li>
+<li>
+<p>不存储任何产品的数据</p>
+</li>
+<li>
+<p>容器化，把代码打成docker image，按需要的配置启动container</p>
+</li>
+<li>
+<p>只接受可直接访问的源文件地址，并在打包前发option请求尝试访问</p>
+</li>
+<li>
+<p>auth算法是公开的，只有key pairs是服务自己存储的，前一节提到过</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="compromise_browsers">浏览器支持考虑：小心处理</h3>
+<div class="paragraph">
+<p>这是些十分大众又出名的坑，小心处理就是。</p>
+</div>
+<div class="sect3">
+<h4 id="___2">小心文件名</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>IE和现代浏览器对UTF8文件名的对待是有区分的，我们在服务端都满足它们。</p>
+</li>
+<li>
+<p>不同浏览器对特殊字符的转换也是有差异的，我们在服务里直接统一改好名，同时做到区别重名。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="__url">别拼接源文件地址进 URL</h4>
+<div class="paragraph">
+<p>提出打包下载请求肯定要带着若干源文件的地址，发一个 POST ajax 请求比较理想。因为若选 GET 请求只能拼 URL，源文件地址的URL长度和数目未知，存在超过 URL 长度限制的可能（IE有2084个字节的限制）。</p>
+</div>
+<div class="paragraph">
+<p>POST 请求带回一个固定长度的存根，在回调方法里再组装一个下载打包文件的 URL，直接打开它就可以启动下载了。这两个请求的衔接是一个用户无法干预的连贯动作，所以时间很快，所以把存根存放在内存数据库如 Redis 中可以设一个很快的过期时间。</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://wushaobo.github.io/images/zipper/request_sequence_diagram.png" alt="request sequence diagram.png"></span></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="cluster">高可用、高并发考虑：集群方案</h3>
+<div class="paragraph">
+<p>看了前文，你该知道这个服务被设计成独立无状态的。和其他集群一样，一个负载均衡器就可实现。</p>
+</div>
+<div class="paragraph">
+<p>但是前文我说过是用 docker 部署的，我推荐在几个VM之间建 docker swarm，直接利用 docker 的 ingress 网络特性来做负载均衡，通过横向扩展 docker swarm 中节点数目和container数目来支持更高并发。</p>
+</div>
+<div class="paragraph">
+<p>存根依赖的内存数据库如 Redis 自然也需要做集群，负载很小，只为高可用。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="implementation">实现</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>你很走运，我已实现好了，拿去吧~</p>
+</div>
+<div class="paragraph">
+<p>demo: <a href="http://zipper.demo.wushaobo.info" class="bare">http://zipper.demo.wushaobo.info</a></p>
+</div>
+<div class="paragraph">
+<p>github: <a href="https://github.com/wushaobo/zipper" class="bare">https://github.com/wushaobo/zipper</a></p>
+</div>
+<div class="paragraph">
+<p>docker: <a href="https://hub.docker.com/r/wushaobo/zipper" class="bare">https://hub.docker.com/r/wushaobo/zipper</a></p>
+</div>
+</div>
+</div>]]></description><link>https://wushaobo.github.io/2017/10/13/zipper.html</link><guid isPermaLink="true">https://wushaobo.github.io/2017/10/13/zipper.html</guid><category><![CDATA[Zip]]></category><category><![CDATA[Service]]></category><category><![CDATA[Blog]]></category><category><![CDATA[Open_Source]]></category><dc:creator><![CDATA[Shaobo Wu]]></dc:creator><pubDate>Fri, 13 Oct 2017 00:00:00 GMT</pubDate></item><item><title><![CDATA[安全地使用存储服务]]></title><description><![CDATA[<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
 <p>做互联网产品绕不开使用存储服务，存取用户的照片、声音、影像等资源是最常见的功能了。你的产品是存储服务的使用者，无论使用云存储服务或是自建存储服务，安全值得你投资和反省，不吃亏。</p>
